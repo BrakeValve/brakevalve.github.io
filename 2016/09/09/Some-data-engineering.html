@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<!--
+	Read Only by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+    
+	<head>
+		<title>BrakeValve</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
+		<script src="/js/jquery.min.js"></script>
+		<script src="/js/jquery.scrollzer.min.js"></script>
+		<script src="/js/jquery.scrolly.min.js"></script>
+		<script src="/js/skel.min.js"></script>
+		<script src="/js/skel-layers.min.js"></script>
+		<script src="/js/init.js"></script>
+		<noscript>
+			<link rel="stylesheet" href="/css/skel.css" />
+			<link rel="stylesheet" href="/css/style.css" />
+			<link rel="stylesheet" href="/css/style-xlarge.css" />
+		</noscript>
+		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
+	</head>
+
+    <body>
+        <div id="wrapper">
+        <!-- Header -->
+    <section id="header" class="skel-layers-fixed">
+        <header>
+            <span class="image avatar"><img src="/images/avatar.jpg" alt="" /></span>
+            <h1 id="logo"><a href="/">BrakeValve</a></h1>
+            <p>We are the brakes for<br />
+            every Steam buyer.</p>
+        </header>
+        <nav id="nav">
+            <ul>
+                <li><a href="/">Home</a></li>
+              <!--     <li><a href="/contact">Contact</a></li>
+              <li><a href="/blog">Blog</a></li>-->
+            </ul>
+        </nav>
+        <footer>
+            <ul class="icons">
+                <li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+                <li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+                <li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+                <li><a href="https://github.com/BrakeValve" class="icon fa-github"><span class="label">Github</span></a></li>
+                <li><a href="mailto:ctsai@netdb.cs.nthu.edu.tw" class="icon fa-envelope"><span class="label">Email</span></a></li>
+            </ul>
+        </footer>
+    </section>
+
+
+            <!-- Main -->
+            <div id="main">
+                <section>
+    <div class="container">
+        <header class="major">
+            <h2>Some Data Engineering</h2>
+                <p class="post-meta">Sep 9, 2016</p>
+        </header>
+
+        <section class="post-content">
+            <h2 id="data-cleaning">Data Cleaning</h2>
+<p>In order to make our predictor robust to all kinds of game, here are some outliers we trimmed form our training data sets.</p>
+
+<ul>
+  <li>Preorder price instance ( this cause some field been negative )</li>
+  <li>Free games</li>
+  <li>Game’s original price duration &gt; 250 days (which means it never have discount)</li>
+</ul>
+
+<h2 id="balance-binary-features-and-time-relative-features">Balance Binary features and Time relative features</h2>
+<p>Recall that we vectorise metadata feature, such as “Publisher” and “Genres” into binary features. These features are consistent across time, therefore they won’t contribute much information to help our prediction . In order words, time relative feature is relatively less than the binary features. This cause our predictor can not reach satisfy performance no matter how much we increase  data sets. We need to find a way to add more time relative feature.
+<img style="" src="/images/country.png" /></p>
+
+<p>Luckily, Steams is an online global market, same game will have different price across the different country, even though some of the countries have same discount timing, but still have a slight difference. We believe that publishers have same promotion mechanism in the different country, therefore the more different country price we collect, the more likely our predictor can capture the promotion mechanism. And we do more than believe it. We put it into a test. As the chart above, as we increase more countries of time relative feature the training accuracy is also increased and at the end reach up to 75%. This is a strong proof to our optimisation.</p>
+
+<h2 id="add-absolute-time-feature">Add Absolute Time feature</h2>
+
+<p><img style="" src="/images/abs_time.png" />
+At first, we only use relative time features such as days passed since the last discount. As the chart above, we found some sharp spit spike appeared in our first prediction ( Red line ). We later found we didn’t add the month, weekdays these kinds of absolute time features, which will cause our predictor have abnormal predictions. Adding absolute time features will also let predictor capture some important Steam promotion mechanism such as “weekend deal”.</p>
+
+        </section>
+        
+        <footer>
+            
+            <a href="/2016/09/08/Evaluation.html" class="float-left">&larr; Previous post</a> 
+            
+            <a href="/2016/09/10/Apply-machine-learning.html" class="float-right">Next post &rarr;</a> 
+        </footer>
+
+    </div>
+
+</section>
+
+
+            </div>
+            <!-- Footer -->
+    <section id="footer">
+        <div class="container">
+            <ul class="copyright">
+                <li>&copy; BrakeValve. All rights reserved.</li>
+                <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+                <li>Jekyll Template: <a href="http://cloudcannon.com">Cloud Cannon</a></li>
+            </ul>
+        </div>
+    </section>
+
+		</div>
+	</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE HTML>
+<!--
+	Read Only by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+    
+	<head>
+		<title>BrakeValve</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
+		<script src="/js/jquery.min.js"></script>
+		<script src="/js/jquery.scrollzer.min.js"></script>
+		<script src="/js/jquery.scrolly.min.js"></script>
+		<script src="/js/skel.min.js"></script>
+		<script src="/js/skel-layers.min.js"></script>
+		<script src="/js/init.js"></script>
+		<noscript>
+			<link rel="stylesheet" href="/css/skel.css" />
+			<link rel="stylesheet" href="/css/style.css" />
+			<link rel="stylesheet" href="/css/style-xlarge.css" />
+		</noscript>
+		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
+	</head>
+
+    <body>
+        <div id="wrapper">
+        <!-- Header -->
+    <section id="header" class="skel-layers-fixed">
+        <header>
+            <span class="image avatar"><img src="/images/avatar.jpg" alt="" /></span>
+            <h1 id="logo"><a href="/">BrakeValve</a></h1>
+            <p>We are the brakes for<br />
+            every Steam buyer.</p>
+        </header>
+        <nav id="nav">
+            <ul>
+                <li><a href="/">Home</a></li>
+              <!--     <li><a href="/contact">Contact</a></li>
+              <li><a href="/blog">Blog</a></li>-->
+            </ul>
+        </nav>
+        <footer>
+            <ul class="icons">
+                <li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+                <li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+                <li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+                <li><a href="https://github.com/BrakeValve" class="icon fa-github"><span class="label">Github</span></a></li>
+                <li><a href="mailto:ctsai@netdb.cs.nthu.edu.tw" class="icon fa-envelope"><span class="label">Email</span></a></li>
+            </ul>
+        </footer>
+    </section>
+
+
+            <!-- Main -->
+            <div id="main">
+                <section>
+    <div class="container">
+        <header class="major">
+            <h2>Apply Machine Learning</h2>
+                <p class="post-meta">Sep 10, 2016</p>
+        </header>
+
+        <section class="post-content">
+            <h2 id="insight">Insight</h2>
+
+<p>In the beginning, we got the insight form the stock prediction. Studies have shown that if we have enough historical data of a stock, it is possible to train a predictor to achieve reasonable accuracy through some complex training model such as Neural network.
+<img style="" src="/images/NN.png" />
+Studies have shown, even though the price vibrated very heavy across the time. the NN is surprisedly predicted very well. However, when we look back to the historical price data of a steam game, we find out that there are some fundamental  different between stock price and steam price.
+<img style="" src="/images/steamDB.png" />
+First of all stock’s price is influenced by the total amount of market sell. In contrast, Steam Game’s price is determined by the publisher, which means we may not possible to gain the knowledge of whether the price will go up or down through the historical data. Also the steam historical price curve is very sharp, it is very different from the stock curve. Then we realise that predicting the price of Steam is not practical.</p>
+
+<p>But, do we really need to predict every exact price of every game at every day in order to determine whether we should buy a game or not ? All we need to know is whether a game is going to have a discount very soon or not. Then we could decide we should buy the game right away and enjoy it, or wait a couple days to see whether it would have a discount. In other words, we should focus on training the model to capture the marketing mechanism behind discounts, therefore we probably will be able to predict when will the game have the discount.</p>
+
+<h2 id="digging-into-steam-data">Digging into Steam data</h2>
+<p><img style="" src="/images/steam_histo.png" />
+Then we do some investigations on Steam games. We crawled over 1000 games historical data from the SteamDB. Here is a histogram of discount gap means, we could clearly see some kind of Gaussian distribution centroid around 60 days. This gave us more confidence on predicting discount from the historical data. At this point , we transferred the difficult regression problem into a relatively easier multi-label classification problem and still could infer the information we want the most.</p>
+
+<h4 id="problem-formulation">Problem Formulation</h4>
+<ul>
+  <li>Input :
+    <ol>
+      <li>Same game in different time slots are different instance</li>
+      <li>Meta Data :
+        <ul>
+          <li>Publisher</li>
+          <li>Genres</li>
+          <li>…</li>
+        </ul>
+      </li>
+      <li>Static Data:
+        <ul>
+          <li>Discount Gap mean</li>
+          <li>Discount Gap variance</li>
+          <li>…</li>
+        </ul>
+      </li>
+      <li>Time relative  Data
+        <ul>
+          <li>How many days it has been since the latest discount</li>
+          <li>…</li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>Output:
+    <ul>
+      <li>1 : Buy Now</li>
+      <li>0 : Caution</li>
+      <li>-1 : Don’t Buy</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="ground-truth-labeling">Ground truth labeling</h2>
+
+<p><img style="    margin: auto;width: 480px;" src="/images/labeling.gif" /></p>
+
+<p>The primary goal of this project is to help people make the correct decision, therefore labeling our instance correctly is crucial to get our desire predictor. Long story short, we need to tell our training model which time slots of some games are “Buy Now”, “Caution” ,or “Don’t Buy”. Here are how we labeling our instance.</p>
+
+<ol>
+  <li>Label a time slot instance as “Buy Now” when it’s game had a discount.</li>
+  <li>Should we label all the others as “Don’t buy” ? It is too pessimistic. Recall that we don’t what to wait a whole month just for a game to discount. So, we make an assumption here, we assume that most people can’t wait any longer than 20 days for a game. As the result, we label all time slots that will have discount within 20 days.</li>
+  <li>But what about those time slots between “But Now” and “Don’t Buy”？We introduce CCC curve. CCC curve is kind like an exponentially decreasing function, it is created to fit the trend of most human passion which quickly decreases across time. Then we can set a reasonable threshold and extend “Buy Now” labels and label the rest with “Caution”.</li>
+</ol>
+
+<p>We think this approach is fit our goal perfectly.</p>
+
+        </section>
+        
+        <footer>
+            
+            <a href="/2016/09/09/Some-data-engineering.html" class="float-left">&larr; Previous post</a> 
+            
+        </footer>
+
+    </div>
+
+</section>
+
+
+            </div>
+            <!-- Footer -->
+    <section id="footer">
+        <div class="container">
+            <ul class="copyright">
+                <li>&copy; BrakeValve. All rights reserved.</li>
+                <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+                <li>Jekyll Template: <a href="http://cloudcannon.com">Cloud Cannon</a></li>
+            </ul>
+        </div>
+    </section>
+
+		</div>
+	</body>
+</html>

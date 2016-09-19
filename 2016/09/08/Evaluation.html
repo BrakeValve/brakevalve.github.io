@@ -1,0 +1,144 @@
+<!DOCTYPE HTML>
+<!--
+	Read Only by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+    
+	<head>
+		<title>BrakeValve</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
+		<script src="/js/jquery.min.js"></script>
+		<script src="/js/jquery.scrollzer.min.js"></script>
+		<script src="/js/jquery.scrolly.min.js"></script>
+		<script src="/js/skel.min.js"></script>
+		<script src="/js/skel-layers.min.js"></script>
+		<script src="/js/init.js"></script>
+		<noscript>
+			<link rel="stylesheet" href="/css/skel.css" />
+			<link rel="stylesheet" href="/css/style.css" />
+			<link rel="stylesheet" href="/css/style-xlarge.css" />
+		</noscript>
+		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
+	</head>
+
+    <body>
+        <div id="wrapper">
+        <!-- Header -->
+    <section id="header" class="skel-layers-fixed">
+        <header>
+            <span class="image avatar"><img src="/images/avatar.jpg" alt="" /></span>
+            <h1 id="logo"><a href="/">BrakeValve</a></h1>
+            <p>We are the brakes for<br />
+            every Steam buyer.</p>
+        </header>
+        <nav id="nav">
+            <ul>
+                <li><a href="/">Home</a></li>
+              <!--     <li><a href="/contact">Contact</a></li>
+              <li><a href="/blog">Blog</a></li>-->
+            </ul>
+        </nav>
+        <footer>
+            <ul class="icons">
+                <li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+                <li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+                <li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+                <li><a href="https://github.com/BrakeValve" class="icon fa-github"><span class="label">Github</span></a></li>
+                <li><a href="mailto:ctsai@netdb.cs.nthu.edu.tw" class="icon fa-envelope"><span class="label">Email</span></a></li>
+            </ul>
+        </footer>
+    </section>
+
+
+            <!-- Main -->
+            <div id="main">
+                <section>
+    <div class="container">
+        <header class="major">
+            <h2>Evaluation</h2>
+                <p class="post-meta">Sep 8, 2016</p>
+        </header>
+
+        <section class="post-content">
+            <h2 id="data">Data</h2>
+
+<ul>
+  <li>172 features</li>
+  <li>84 of Top 100 rated game on Steam</li>
+  <li>Two years historical data on SteamDB
+    <ul>
+      <li>About 40000 rows</li>
+    </ul>
+  </li>
+  <li>Spilt ratio of training data and testing data is 4 : 1
+    <ul>
+      <li>We used 20 months data for training and 4 months data to evaluate our predictor.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="some-baselines">Some Baselines</h2>
+
+<p>To demonstrate our model’s performance, here are some common baselines:</p>
+
+<ol>
+  <li>Random Guess :
+    <ul>
+      <li>Blind guessing</li>
+    </ul>
+  </li>
+  <li>Naive method :
+    <ul>
+      <li>Use the average discount gap of a game as a threshold. If a instance have cross this threshold predict it as “Don’t buy”, otherwise “Buy it”.</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="reasonable-metric">Reasonable Metric</h2>
+
+<p>Treat “Caution” as “Don’t buy”, which means if a instance’s ground truth is “Don’t buy”, we predict “Caution” is a correct prediction.</p>
+
+<h2 id="experiment-result">Experiment Result</h2>
+<p><img style="margin :  1.5em 0 0 0 " src="/images/result.png" /></p>
+
+<p>We use two popular classifiers : 1) SVM, 2) Random Forest in our experiment. We can see Random Forest outperformed others and achieved over 80% accuracy and F-score. It’s interesting to point out that one of our baselines “naive method” actually perform surprisedly well and result is just a little behind the SVM. Here, we concluded some comparison between SVM and Random Forest in this Steam dataset.</p>
+
+<ul>
+  <li>Random Forest is much more robust</li>
+  <li>Grid Search in Random Forest is much faster : About 20 times</li>
+  <li>Random forest interpretation : Give us further information on feature selection</li>
+</ul>
+
+        </section>
+        
+        <footer>
+            
+            
+            <a href="/2016/09/09/Some-data-engineering.html" class="float-right">Next post &rarr;</a> 
+        </footer>
+
+    </div>
+
+</section>
+
+
+            </div>
+            <!-- Footer -->
+    <section id="footer">
+        <div class="container">
+            <ul class="copyright">
+                <li>&copy; BrakeValve. All rights reserved.</li>
+                <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+                <li>Jekyll Template: <a href="http://cloudcannon.com">Cloud Cannon</a></li>
+            </ul>
+        </div>
+    </section>
+
+		</div>
+	</body>
+</html>
