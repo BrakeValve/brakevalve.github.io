@@ -77,30 +77,31 @@ First of all stock’s price is influenced by the total amount of market sell. I
 
 <h2 id="digging-into-steam-data">Digging into Steam data</h2>
 <p><img style="" src="/images/steam_histo.png" />
-Then we do some investigations on Steam games. We crawled over 1000 games historical data from the SteamDB. Here is a histogram of discount gap means, we could clearly see some kind of Gaussian distribution centroid around 60 days. This gave us more confidence on predicting discount from the historical data. At this point , we transferred the difficult regression problem into a relatively easier multi-label classification problem and still could infer the information we want the most.</p>
+Then we do some investigations on Steam games. We crawled over 1300 games’ historical data from the SteamDB. Here is a histogram of discount gap means, we could clearly see some kind of Gaussian distribution’s centroid around 60 days. This gave us more confidence on predicting discount from the historical data. At this point , we transferred the difficult regression problem into a relatively easier multi-label classification problem and still could infer the information we want the most.</p>
 
 <h4 id="problem-formulation">Problem Formulation</h4>
 <ul>
   <li>Input :
     <ol>
       <li>Same game in different time slots are different instance</li>
-      <li>Meta Data :
+      <li>Meta Features:
         <ul>
           <li>Publisher</li>
           <li>Genres</li>
           <li>…</li>
         </ul>
       </li>
-      <li>Static Data:
+      <li>Static Features:
         <ul>
           <li>Discount Gap mean</li>
           <li>Discount Gap variance</li>
           <li>…</li>
         </ul>
       </li>
-      <li>Time relative  Data
+      <li>Time relative Features:
         <ul>
           <li>How many days it has been since the latest discount</li>
+          <li>Month</li>
           <li>…</li>
         </ul>
       </li>
@@ -127,7 +128,7 @@ Then we do some investigations on Steam games. We crawled over 1000 games histor
   <li>But what about those time slots between “But Now” and “Don’t Buy”？We introduce CCC curve. CCC curve is kind like an exponentially decreasing function, it is created to fit the trend of most human passion which quickly decreases across time. Then we can set a reasonable threshold and extend “Buy Now” labels and label the rest with “Caution”.</li>
 </ol>
 
-<p>We think this approach is fit our goal perfectly.</p>
+<p>We think this approach fits our goal perfectly.</p>
 
         </section>
         
